@@ -42,7 +42,7 @@ class ConfigService {
         password: connectionOptions.password,
         database: connectionOptions.database,
         synchronize: true,
-        entities: ['**/*.entity{.ts,.js}'],
+        entities: ['dist/models/*.entity.js'],
         ssl: true,
         extra: {
           ssl: {
@@ -51,7 +51,7 @@ class ConfigService {
         },
         migrationsTableName: 'migration',
   
-        migrations: ['src/migration/*.ts'],
+        migrations: ['dist/migration/*.js'],
   
         cli: {
           migrationsDir: 'src/migration',
