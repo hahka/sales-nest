@@ -43,7 +43,7 @@ class ConfigService {
         database: connectionOptions.database,
         synchronize: true,
         entities: ['**/*.entity{.ts,.js}'],
-        ssl: this.isProduction(),
+        ssl: true,
         migrationsTableName: 'migration',
   
         migrations: ['src/migration/*.ts'],
