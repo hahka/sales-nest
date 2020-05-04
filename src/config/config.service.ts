@@ -44,6 +44,11 @@ class ConfigService {
         synchronize: true,
         entities: ['**/*.entity{.ts,.js}'],
         ssl: true,
+        extra: {
+          ssl: {
+            rejectUnauthorized: false,
+          }
+        },
         migrationsTableName: 'migration',
   
         migrations: ['src/migration/*.ts'],
