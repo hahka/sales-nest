@@ -1,8 +1,8 @@
-import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { Injectable } from '@nestjs/common';
 import { Market } from '../../models/market.entity';
-import { Repository } from 'typeorm';
 import { MarketDTO } from '../../dto/market.dto';
+import { Repository } from 'typeorm';
 
 @Injectable()
 export class MarketsService {
@@ -13,7 +13,6 @@ export class MarketsService {
   }
 
   public async create(dto: MarketDTO) {
-    return this.repo.save(dto.toEntity())
-      .then(e => MarketDTO.fromEntity(e));
+    return this.repo.save(dto.toEntity());
   }
 }

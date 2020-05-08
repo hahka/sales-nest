@@ -7,9 +7,9 @@ class ConfigService {
 
   constructor(private env: { [k: string]: string | undefined }) { }
 
-  private getValue(key: string, throwOnMissing = true): string {
+  private getValue(key: string): string {
     const value = this.env[key];
-    if (!value && throwOnMissing) {
+    if (value == null) {
       throw new Error(`config error - missing env.${key}`);
     }
 
@@ -17,23 +17,26 @@ class ConfigService {
   }
 
   public ensureValues(keys: string[]) {
-    keys.forEach(k => this.getValue(k, true));
+    keys.forEach(k => this.getValue(k));
     return this;
   }
 
   public getPort() {
-    return this.getValue('PORT', true);
+    return this.getValue('PORT');
   }
 
   public isProduction() {
-    const mode = this.getValue('MODE', false);
+    const mode = this.getValue('MODE');
     return mode != 'DEV';
   }
 
   public getTypeOrmConfig(): TypeOrmModuleOptions {
     try {
-      const databaseUrl = this.getValue('DATABASE_URL', true);
+      const databaseUrl = this.getValue('DATABASE_URL');
       const connectionOptions = PostgressConnectionStringParser.parse(databaseUrl);
+      if (connectionOptions.host == null || connectionOptions.port == null || connectionOptions.database == null) {
+        throw new Error('Database url is probably wrong');
+      }
       return {
         type: "postgres",
         host: connectionOptions.host,
@@ -41,7 +44,6 @@ class ConfigService {
         username: connectionOptions.user,
         password: connectionOptions.password,
         database: connectionOptions.database,
-        synchronize: true,
         entities: ['dist/models/*.entity.js'],
         ssl: true,
         extra: {

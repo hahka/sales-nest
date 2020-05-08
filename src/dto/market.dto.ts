@@ -12,20 +12,6 @@ export class MarketDTO implements Readonly<MarketDTO> {
   @IsString()
   name: string;
 
-  public static from(dto: Partial<MarketDTO>) {
-    const it = new MarketDTO();
-    it.id = dto.id;
-    it.name = dto.name;
-    return it;
-  }
-
-  public static fromEntity(entity: Market) {
-    return this.from({
-      id: entity.id,
-      name: entity.name
-    });
-  }
-
   public toEntity() {
     const market = new Market();
     market.id = this.id;
