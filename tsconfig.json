@@ -1,5 +1,10 @@
 {
   "compilerOptions": {
+    "noUnusedParameters": true,
+    "noUnusedLocals": true,
+    "noImplicitAny": true,
+    "noImplicitReturns": true,
+    "strictNullChecks": true,
     "module": "commonjs",
     "declaration": true,
     "removeComments": true,
