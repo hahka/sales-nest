@@ -1,18 +1,72 @@
 import { InjectRepository } from '@nestjs/typeorm';
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { Market } from '../../models/market.entity';
 import { MarketDTO } from '../../dto/market.dto';
-import { Repository } from 'typeorm';
+import { Repository, Like } from 'typeorm';
+import SearchDto from 'src/dto/search.dto';
+import { ApiResponse } from 'src/shared/api-response.model';
 
 @Injectable()
 export class MarketsService {
-    constructor(@InjectRepository(Market) private readonly repo: Repository<Market>) { }
+  constructor(
+    @InjectRepository(Market) private readonly repo: Repository<Market>,
+  ) {}
 
-  public async getAll() {
+  public async getById(id: string): Promise<ApiResponse<Market>> {
+    return {
+      data: await this.repo.findOne(id),
+    };
+  }
+
+  public async getAll(): Promise<Market[]> {
     return await this.repo.find();
   }
 
-  public async create(dto: MarketDTO) {
-    return this.repo.save(dto.toEntity());
+  public async create(dto: MarketDTO): Promise<Market> {
+    return this.save(dto.toEntity());
+  }
+
+  public async patch(id: string, dto: MarketDTO): Promise<Market> {
+    let entity = await this.repo.findOne(id);
+    if (!entity) {
+      throw new NotFoundException();
+    }
+    entity = { ...entity, ...dto.toEntity() };
+    return this.save(entity);
+  }
+
+  public async search(dto: SearchDto): Promise<ApiResponse<Market[]>> {
+    const take = dto.length || 20;
+    const skip = dto.length * dto.page || 0;
+    const keyword = dto.search || '';
+
+    const sort = {
+      column: 'name',
+      order: 'ASC',
+    };
+    if (dto.sort) {
+      sort.column = dto.sort.field;
+      sort.order = dto.sort.order === 1 ? 'ASC' : 'DESC';
+    }
+
+    const [result, total] = await this.repo.findAndCount({
+      where: { name: Like('%' + keyword + '%') },
+      order: { [`${sort.column}`]: sort.order },
+      take: take,
+      skip: skip,
+    });
+
+    return {
+      data: result,
+      pagination: {
+        page: dto.page,
+        length: result.length,
+        total,
+      },
+    };
+  }
+
+  private save(entity: Market) {
+    return this.repo.save(entity);
   }
 }
