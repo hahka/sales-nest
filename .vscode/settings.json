@@ -12,4 +12,6 @@
   "[jsonc]": {
     "editor.formatOnSave": false
   },
+  "typescript.preferences.importModuleSpecifier": "relative",
 }
+
