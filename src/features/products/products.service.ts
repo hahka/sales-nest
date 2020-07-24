@@ -12,6 +12,14 @@ export class ProductsService {
     @InjectRepository(Product) private readonly repo: Repository<Product>,
   ) {}
 
+  public async getImage(id: string): Promise<string | undefined> {
+    const products = await this.repo.query(
+      `SELECT image FROM product WHERE product.id = $1`,
+      [id],
+    );
+    return products[0].image;
+  }
+
   public async getById(id: string): Promise<ApiResponse<Product>> {
     return {
       data: await this.repo.findOne(id),

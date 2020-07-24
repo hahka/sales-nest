@@ -27,6 +27,11 @@ export class ProductsController {
     return await this.productsService.getById(id);
   }
 
+  @Get('/:id/image')
+  public async getImageById(@Param('id') id: string) {
+    return await this.productsService.getImage(id);
+  }
+
   @Post()
   public async post(
     @Body(new CustomValidationPipe(['post']))
