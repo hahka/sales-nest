@@ -21,20 +21,12 @@ export class ProductDTO implements Readonly<ProductDTO> {
   @IsOptional({ groups: ['post', 'patch'] })
   image: string;
 
-  @ApiProperty()
-  @Min(0, { groups: ['post', 'patch'] })
-  @IsOptional({ groups: ['post', 'patch'] })
-  stockQuantity: number;
-
   public toEntity() {
     const product = new Product();
     product.name = this.name;
     product.category = this.category;
     product.price = this.price;
     product.image = this.image;
-    if (this.stockQuantity !== null) {
-      product.stockQuantity = this.stockQuantity;
-    }
     return product;
   }
 }
