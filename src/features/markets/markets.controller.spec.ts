@@ -1,9 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { MarketsController } from './markets.controller';
 import { MarketsService } from './markets.service';
-import { getRepositoryToken } from '@nestjs/typeorm';
-import { Market } from 'src/models/market.entity';
-import { RepositoryFake } from 'test/repository.mock';
 import { BaseServiceMock } from '../../../test/base-service.mock';
 
 describe('Markets Controller', () => {
@@ -16,10 +13,6 @@ describe('Markets Controller', () => {
         {
           provide: MarketsService,
           useClass: BaseServiceMock,
-        },
-        {
-          provide: getRepositoryToken(Market),
-          useClass: RepositoryFake,
         },
       ],
     }).compile();
