@@ -16,4 +16,7 @@ export class Product extends BaseEntity {
 
   @Column({ type: 'text' })
   category: PRODUCT_CATEGORY;
+
+  @Column({ type: 'int' })
+  stockQuantity: number;
 }
