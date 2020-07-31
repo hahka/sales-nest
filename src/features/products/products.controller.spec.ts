@@ -1,23 +1,24 @@
+/* eslint-disable @typescript-eslint/no-empty-function */
 import { Test, TestingModule } from '@nestjs/testing';
-import { MarketsController } from './markets.controller';
-import { MarketsService } from './markets.service';
+import { ProductsController } from './products.controller';
+import { ProductsService } from './products.service';
 import { BaseServiceMock } from '../../../test/base-service.mock';
 
-describe('Markets Controller', () => {
-  let controller: MarketsController;
+describe('Products Controller', () => {
+  let controller: ProductsController;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      controllers: [MarketsController],
+      controllers: [ProductsController],
       providers: [
         {
-          provide: MarketsService,
+          provide: ProductsService,
           useClass: BaseServiceMock,
         },
       ],
     }).compile();
 
-    controller = module.get<MarketsController>(MarketsController);
+    controller = module.get<ProductsController>(ProductsController);
   });
 
   it('should be defined', () => {
