@@ -1,7 +1,7 @@
 import { MigrationInterface, QueryRunner } from 'typeorm';
 
 export class MarketNameUnicity1588955291112 implements MigrationInterface {
-  name = 'marketNameUnicity1588955291112';
+  name = 'MarketNameUnicity1588955291112';
 
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.query(`DROP INDEX "unique_name"`, undefined);
