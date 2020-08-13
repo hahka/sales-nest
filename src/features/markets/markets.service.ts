@@ -2,7 +2,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Injectable } from '@nestjs/common';
 import { Market } from '../../models/market.entity';
 import { MarketDTO } from '../../dto/market.dto';
-import { Repository, Like } from 'typeorm';
+import { Repository } from 'typeorm';
 import { BaseService } from '../../shared/base.service';
 import { ApiSort } from '../../shared/types/api-sort.model';
 
@@ -14,17 +14,21 @@ export class MarketsService extends BaseService<Market, MarketDTO> {
     super();
   }
 
-  protected findAndCount(
+  protected async findAndCount(
     keyword: string,
     sort: ApiSort,
     take: number,
     skip: number,
   ) {
-    return this.repo.findAndCount({
-      where: { name: Like('%' + keyword + '%') },
-      order: { [`${sort.column}`]: sort.order },
-      take,
-      skip,
-    });
+    const query = this.repo
+      .createQueryBuilder()
+      .where('LOWER(name) LIKE :name', { name: `%${keyword.toLowerCase()}%` })
+      .orderBy(`LOWER(${sort.column})`, sort.order);
+    const count = await query.getCount();
+    const test = await query
+      .skip(skip)
+      .take(take)
+      .getMany();
+    return [test, count];
   }
 }
