@@ -1,10 +1,14 @@
+import { MarketsModule } from './features/markets/markets.module';
 import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { configService } from './config/config.service';
+import { ProductsModule } from './features/products/products.module';
 
 @Module({
-  imports: [],
-  controllers: [AppController],
-  providers: [AppService],
+  imports: [
+    TypeOrmModule.forRoot(configService.getTypeOrmConfig()),
+    MarketsModule,
+    ProductsModule,
+  ],
 })
 export class AppModule {}
