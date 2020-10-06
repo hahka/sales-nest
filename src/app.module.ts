@@ -4,6 +4,7 @@ import { configService } from './config/config.service';
 import { MarketsModule } from './features/markets/markets.module';
 import { ProductsModule } from './features/products/products.module';
 import { StockModule } from './features/stock/stock.module';
+import { MarketSalesModule } from './features/market-sales/market-sales.module';
 
 @Module({
   imports: [
@@ -11,6 +12,7 @@ import { StockModule } from './features/stock/stock.module';
     MarketsModule,
     ProductsModule,
     StockModule,
+    MarketSalesModule,
   ],
 })
 export class AppModule {}
