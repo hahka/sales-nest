@@ -8,12 +8,15 @@ export class Product extends BaseEntity {
   @Column({ type: 'varchar', length: 300 })
   name: string;
 
-  @Column({ type: 'numeric' })
+  @Column({ type: 'real' })
   price: number;
 
-  @Column({ type: 'text', select: false })
+  @Column({ type: 'text', select: false, nullable: true })
   image: string;
 
-  @Column({ type: 'text' })
+  @Column({ type: 'enum', enum: PRODUCT_CATEGORY })
   category: PRODUCT_CATEGORY;
+
+  @Column({ type: 'integer', default: 1 })
+  order: number;
 }

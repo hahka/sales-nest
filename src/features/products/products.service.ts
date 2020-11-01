@@ -14,6 +14,12 @@ export class ProductsService extends BaseService<Product, ProductDTO> {
     super();
   }
 
+  public async getFull(): Promise<Product[]> {
+    return await this.repo.query(
+      `SELECT id, name, price, category, product.order, image FROM product`,
+    );
+  }
+
   public async getImage(id: string): Promise<string | undefined> {
     const products = await this.repo.query(
       `SELECT image FROM product WHERE product.id = $1`,

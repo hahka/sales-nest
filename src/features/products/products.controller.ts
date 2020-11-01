@@ -22,6 +22,11 @@ export class ProductsController {
     return await this.productsService.getAll();
   }
 
+  @Get('/full')
+  public async getFull() {
+    return await this.productsService.getFull();
+  }
+
   @Get('/:id')
   public async getById(@Param('id') id: string) {
     return await this.productsService.getById(id);

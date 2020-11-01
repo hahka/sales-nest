@@ -16,6 +16,10 @@ export class ProductDTO implements Readonly<ProductDTO> {
   @Min(0, { groups: ['post', 'patch'] })
   price: number;
 
+  @ApiProperty({ required: true })
+  @Min(0, { groups: ['post', 'patch'] })
+  order: number;
+
   @ApiProperty()
   @IsBase64({ groups: ['post', 'patch'] })
   @IsOptional({ groups: ['post', 'patch'] })
@@ -27,6 +31,7 @@ export class ProductDTO implements Readonly<ProductDTO> {
     product.category = this.category;
     product.price = this.price;
     product.image = this.image;
+    product.order = this.order;
     return product;
   }
 }
