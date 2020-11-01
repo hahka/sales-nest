@@ -17,6 +17,6 @@ export class Product extends BaseEntity {
   @Column({ type: 'enum', enum: PRODUCT_CATEGORY })
   category: PRODUCT_CATEGORY;
 
-  @Column({ type: 'integer' })
+  @Column({ type: 'integer', default: 1 })
   order: number;
 }
