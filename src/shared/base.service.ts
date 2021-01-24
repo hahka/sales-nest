@@ -79,8 +79,8 @@ export abstract class BaseService<T, DTO extends BaseDTO> {
     return this.repo.save(entity);
   }
 
-  protected getSortString(sort: ApiSort) {
-    return sort.column === 'product_order' || sort.column === 'market_order'
+  protected getSortString(sort: ApiSort, blacklist: string[]) {
+    return blacklist.includes(sort.column)
       ? sort.column
       : `LOWER(${sort.column})`;
   }

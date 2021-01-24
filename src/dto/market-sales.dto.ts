@@ -11,6 +11,7 @@ import {
 } from 'class-validator';
 import { MarketSales } from '../models/market-sales.entity';
 import { Sale } from '../models/sale.entity';
+import { BaseDTO } from '../shared/base.dto';
 import { PRODUCT_CATEGORY } from '../utils/product-category.enum';
 
 export class SaleItemProductDTO implements Readonly<SaleItemProductDTO> {
@@ -54,7 +55,8 @@ export class SaleDTO implements Readonly<SaleDTO> {
   items: SaleItemDTO[];
 }
 
-export class MarketSalesDTO implements Readonly<MarketSalesDTO> {
+export class MarketSalesDTO extends BaseDTO
+  implements Readonly<MarketSalesDTO> {
   @ApiProperty({ required: true })
   @IsString({ groups: ['post', 'patch'] })
   marketId: string;
@@ -86,6 +88,7 @@ export class MarketSalesDTO implements Readonly<MarketSalesDTO> {
   income: number;
 
   constructor(obj?: MarketSalesDTO) {
+    super();
     Object.assign(this, obj);
   }
 
@@ -112,5 +115,9 @@ export class MarketSalesDTO implements Readonly<MarketSalesDTO> {
         )
         .reduce((acc, val) => acc + val);
     return marketSales;
+  }
+
+  static columnsSortBlacklist() {
+    return ['start_date', 'income'];
   }
 }

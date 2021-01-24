@@ -37,7 +37,10 @@ export class ProductsService extends BaseService<Product, ProductDTO> {
     const query = this.repo
       .createQueryBuilder()
       .where('LOWER(name) LIKE :name', { name: `%${keyword.toLowerCase()}%` })
-      .orderBy(this.getSortString(sort), sort.order);
+      .orderBy(
+        this.getSortString(sort, ProductDTO.columnsSortBlacklist()),
+        sort.order,
+      );
     const count = await query.getCount();
     const test = await query
       .skip(skip)
