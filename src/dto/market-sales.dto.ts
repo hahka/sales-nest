@@ -10,6 +10,7 @@ import {
   ValidateNested,
 } from 'class-validator';
 import { MarketSales } from '../models/market-sales.entity';
+import { Sale } from '../models/sale.entity';
 import { PRODUCT_CATEGORY } from '../utils/product-category.enum';
 
 export class SaleItemProductDTO implements Readonly<SaleItemProductDTO> {
@@ -63,6 +64,14 @@ export class MarketSalesDTO implements Readonly<MarketSalesDTO> {
   marketName: string;
 
   @ApiProperty({ required: true })
+  @IsString({ groups: ['post', 'patch'] })
+  startDate: string;
+
+  @ApiProperty()
+  @IsString({ groups: ['post', 'patch'] })
+  endDate?: string;
+
+  @ApiProperty({ required: true })
   @IsArray({ groups: ['post', 'patch'] })
   categories: PRODUCT_CATEGORY[];
 
@@ -70,6 +79,11 @@ export class MarketSalesDTO implements Readonly<MarketSalesDTO> {
   @ValidateNested({ groups: ['post', 'patch'] })
   @Type(() => SaleDTO)
   sales: SaleDTO[];
+
+  @Min(0, { groups: ['post', 'patch'] })
+  @IsOptional({ groups: ['post', 'patch'] })
+  @Type(() => SaleDTO)
+  income: number;
 
   constructor(obj?: MarketSalesDTO) {
     Object.assign(this, obj);
@@ -81,6 +95,22 @@ export class MarketSalesDTO implements Readonly<MarketSalesDTO> {
     marketSales.marketId = this.marketId;
     marketSales.marketName = this.marketName;
     marketSales.sales = this.sales;
+    marketSales.startDate = this.startDate;
+    marketSales.endDate = this.endDate;
+    marketSales.income =
+      this.income ||
+      [new Sale(), ...marketSales.sales]
+        .map(sales =>
+          [
+            0,
+            ...(sales && sales.items ? sales.items : []).map(
+              item => item.price,
+            ),
+          ].reduce((acc, val) => {
+            return acc + val - sales.discount;
+          }),
+        )
+        .reduce((acc, val) => acc + val);
     return marketSales;
   }
 }
