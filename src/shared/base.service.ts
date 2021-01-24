@@ -40,12 +40,15 @@ export abstract class BaseService<T, DTO extends BaseDTO> {
     }
   }
 
-  public async search(dto: SearchDto): Promise<ApiResponse<T[]>> {
+  public async search(
+    dto: SearchDto,
+    customSort?: ApiSort,
+  ): Promise<ApiResponse<T[]>> {
     const take = dto.length || 20;
     const skip = dto.length * dto.page || 0;
     const keyword = dto.search || '';
 
-    const sort = {
+    const sort = customSort || {
       column: 'name',
       order: SortOrder.ASC,
     };

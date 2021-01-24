@@ -26,8 +26,10 @@ export class MarketSalesService extends BaseService<
   ) {
     const query = this.repo
       .createQueryBuilder()
-      .where('LOWER(name) LIKE :name', { name: `%${keyword.toLowerCase()}%` })
-      .orderBy(`LOWER(${sort.column})`, sort.order);
+      .where('LOWER(market_name) LIKE :marketName', {
+        marketName: `%${keyword.toLowerCase()}%`,
+      })
+      .orderBy(sort.column, sort.order);
     const count = await query.getCount();
     const test = await query
       .skip(skip)

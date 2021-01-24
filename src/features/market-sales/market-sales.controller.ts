@@ -11,19 +11,20 @@ import { MarketSalesService } from './market-sales.service';
 import { CustomValidationPipe } from '../../shared/pipes/validation.pipe';
 import SearchDto from '../../dto/search.dto';
 import { MarketSalesDTO } from '../../dto/market-sales.dto';
+import { SortOrder } from '../../shared/types/sort-order.enum';
 
 @Controller('market-sales')
 export class MarketSalesController {
-  constructor(private marketsService: MarketSalesService) {}
+  constructor(private marketSalesService: MarketSalesService) {}
 
   @Get()
   public async getAll() {
-    return await this.marketsService.getAll();
+    return await this.marketSalesService.getAll();
   }
 
   @Get('/:id')
   public async getById(@Param('id') id: string) {
-    return await this.marketsService.getById(id);
+    return await this.marketSalesService.getById(id);
   }
 
   @Post()
@@ -31,7 +32,7 @@ export class MarketSalesController {
     @Body(new CustomValidationPipe(['post']))
     dto: MarketSalesDTO[],
   ) {
-    return await this.marketsService.synchronize(dto).catch(err => {
+    return await this.marketSalesService.synchronize(dto).catch(err => {
       throw new HttpException(
         {
           code: err.code,
@@ -47,6 +48,9 @@ export class MarketSalesController {
     @Body(new CustomValidationPipe([]))
     dto: SearchDto,
   ) {
-    return await this.marketsService.search(dto);
+    return await this.marketSalesService.search(dto, {
+      column: 'start_date',
+      order: SortOrder.ASC,
+    });
   }
 }
