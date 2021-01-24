@@ -23,7 +23,7 @@ export class MarketsService extends BaseService<Market, MarketDTO> {
     const query = this.repo
       .createQueryBuilder()
       .where('LOWER(name) LIKE :name', { name: `%${keyword.toLowerCase()}%` })
-      .orderBy(`LOWER(${sort.column})`, sort.order);
+      .orderBy(this.getSortString(sort), sort.order);
     const count = await query.getCount();
     const test = await query
       .skip(skip)

@@ -29,7 +29,7 @@ export class MarketSalesService extends BaseService<
       .where('LOWER(market_name) LIKE :marketName', {
         marketName: `%${keyword.toLowerCase()}%`,
       })
-      .orderBy(sort.column, sort.order);
+      .orderBy(this.getSortString(sort), sort.order);
     const count = await query.getCount();
     const test = await query
       .skip(skip)

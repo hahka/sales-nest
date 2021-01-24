@@ -6,4 +6,7 @@ import { BaseEntity } from './base.entity';
 export class Market extends BaseEntity {
   @Column({ type: 'varchar', length: 300 })
   name: string;
+
+  @Column({ type: 'integer', default: 1, name: 'market_order' })
+  marketOrder: number;
 }
