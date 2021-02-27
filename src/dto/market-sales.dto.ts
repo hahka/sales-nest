@@ -70,6 +70,7 @@ export class MarketSalesDTO extends BaseDTO
   startDate: string;
 
   @ApiProperty()
+  @IsOptional({ groups: ['post', 'patch'] })
   @IsString({ groups: ['post', 'patch'] })
   endDate?: string;
 

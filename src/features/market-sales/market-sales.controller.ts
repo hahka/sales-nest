@@ -30,7 +30,7 @@ export class MarketSalesController {
   @Post()
   public async post(
     @Body(new CustomValidationPipe(['post']))
-    dto: MarketSalesDTO[],
+    dto: MarketSalesDTO,
   ) {
     return await this.marketSalesService.synchronize(dto).catch(err => {
       throw new HttpException(

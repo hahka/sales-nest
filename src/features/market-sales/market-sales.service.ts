@@ -41,7 +41,7 @@ export class MarketSalesService extends BaseService<
     return [test, count];
   }
 
-  public async synchronize(dto: MarketSalesDTO[]) {
-    return this.repo.save(dto.map(data => new MarketSalesDTO(data).toEntity()));
+  public async synchronize(dto: MarketSalesDTO) {
+    return this.repo.save(dto.toEntity());
   }
 }
