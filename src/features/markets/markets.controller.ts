@@ -12,6 +12,7 @@ import { MarketsService } from './markets.service';
 import { MarketDTO } from '../../dto/market.dto';
 import { CustomValidationPipe } from '../../shared/pipes/validation.pipe';
 import SearchDto from '../../dto/search.dto';
+import { SortOrder } from '../../shared/types/sort-order.enum';
 
 @Controller('markets')
 export class MarketsController {
@@ -19,7 +20,9 @@ export class MarketsController {
 
   @Get()
   public async getAll() {
-    return await this.marketsService.getAll();
+    return await this.marketsService.getAll({
+      order: { marketOrder: 'ASC' },
+    });
   }
 
   @Get('/:id')
@@ -65,6 +68,9 @@ export class MarketsController {
     @Body(new CustomValidationPipe([]))
     dto: SearchDto,
   ) {
-    return await this.marketsService.search(dto);
+    return await this.marketsService.search(dto, {
+      column: 'market_order',
+      order: SortOrder.DESC,
+    });
   }
 }

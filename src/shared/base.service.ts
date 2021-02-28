@@ -1,5 +1,5 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { Repository } from 'typeorm';
+import { FindManyOptions, Repository } from 'typeorm';
 import SearchDto from 'src/dto/search.dto';
 import { ApiResponse } from 'src/shared/api-response.model';
 import { BaseDTO } from './base.dto';
@@ -23,8 +23,8 @@ export abstract class BaseService<T, DTO extends BaseDTO> {
     };
   }
 
-  public async getAll(): Promise<T[]> {
-    return await this.repo.find();
+  public async getAll(options?: FindManyOptions<T>): Promise<T[]> {
+    return await this.repo.find(options);
   }
 
   public async create(dto: DTO): Promise<T> {

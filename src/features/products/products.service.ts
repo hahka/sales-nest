@@ -16,7 +16,7 @@ export class ProductsService extends BaseService<Product, ProductDTO> {
 
   public async getFull(): Promise<Product[]> {
     return await this.repo.query(
-      `SELECT id, name, price, category, product_order, image FROM product`,
+      `SELECT id, name, price, category, product_order, image FROM product ORDER BY product_order ASC`,
     );
   }
 

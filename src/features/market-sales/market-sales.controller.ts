@@ -50,7 +50,7 @@ export class MarketSalesController {
   ) {
     return await this.marketSalesService.search(dto, {
       column: 'start_date',
-      order: SortOrder.ASC,
+      order: SortOrder.DESC,
     });
   }
 }

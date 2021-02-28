@@ -12,6 +12,7 @@ import { ProductsService } from './products.service';
 import { CustomValidationPipe } from '../../shared/pipes/validation.pipe';
 import SearchDto from '../../dto/search.dto';
 import { ProductDTO } from '../../dto/product.dto';
+import { SortOrder } from '../../shared/types/sort-order.enum';
 
 @Controller('products')
 export class ProductsController {
@@ -75,6 +76,9 @@ export class ProductsController {
     @Body(new CustomValidationPipe([]))
     dto: SearchDto,
   ) {
-    return await this.productsService.search(dto);
+    return await this.productsService.search(dto, {
+      column: 'product_order',
+      order: SortOrder.ASC,
+    });
   }
 }
