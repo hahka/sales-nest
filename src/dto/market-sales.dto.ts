@@ -104,16 +104,13 @@ export class MarketSalesDTO extends BaseDTO
     marketSales.income =
       this.income ||
       [new Sale(), ...marketSales.sales]
-        .map(sales =>
-          [
-            0,
-            ...(sales && sales.items ? sales.items : []).map(
-              item => item.price,
-            ),
-          ].reduce((acc, val) => {
-            return acc + val - sales.discount;
-          }),
-        )
+        .map(sales => {
+          return (
+            [0, ...(sales?.items || []).map(item => item.price)].reduce(
+              (acc, val) => acc + val,
+            ) - (sales.discount || 0)
+          );
+        })
         .reduce((acc, val) => acc + val);
     return marketSales;
   }
