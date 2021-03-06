@@ -44,4 +44,8 @@ export class MarketSalesService extends BaseService<
   public async synchronize(dto: MarketSalesDTO) {
     return this.repo.save(dto.toEntity());
   }
+
+  public delete(entityId: string) {
+    return super.delete(entityId);
+  }
 }

@@ -6,6 +6,7 @@ import {
   Param,
   HttpException,
   HttpStatus,
+  Delete,
 } from '@nestjs/common';
 import { MarketSalesService } from './market-sales.service';
 import { CustomValidationPipe } from '../../shared/pipes/validation.pipe';
@@ -25,6 +26,11 @@ export class MarketSalesController {
   @Get('/:id')
   public async getById(@Param('id') id: string) {
     return await this.marketSalesService.getById(id);
+  }
+
+  @Delete('/:id')
+  public async deleteById(@Param('id') id: string) {
+    return await this.marketSalesService.delete(id);
   }
 
   @Post()

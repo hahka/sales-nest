@@ -79,6 +79,10 @@ export abstract class BaseService<T, DTO extends BaseDTO> {
     return this.repo.save(entity);
   }
 
+  protected delete(entityId: string) {
+    return this.repo.delete(entityId);
+  }
+
   protected getSortString(sort: ApiSort, blacklist: string[]) {
     return blacklist.includes(sort.column)
       ? sort.column
