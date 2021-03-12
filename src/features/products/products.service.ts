@@ -15,17 +15,20 @@ export class ProductsService extends BaseService<Product, ProductDTO> {
   }
 
   public async getFull(): Promise<Product[]> {
-    return await this.repo.query(
-      `SELECT id, name, price, category, product_order, image FROM product ORDER BY product_order ASC`,
-    );
+    return await this.repo
+      .createQueryBuilder('product')
+      .orderBy('product.product_order', 'ASC')
+      .addSelect('product.image')
+      .getMany();
   }
 
   public async getImage(id: string): Promise<string | undefined> {
-    const products = await this.repo.query(
-      `SELECT image FROM product WHERE product.id = $1`,
-      [id],
-    );
-    return products[0].image;
+    const products = await this.repo
+      .createQueryBuilder('product')
+      .whereInIds([id])
+      .addSelect('product.image')
+      .getOne();
+    return products?.image;
   }
 
   protected async findAndCount(

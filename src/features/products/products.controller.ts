@@ -20,7 +20,9 @@ export class ProductsController {
 
   @Get()
   public async getAll() {
-    return await this.productsService.getAll();
+    return await this.productsService.getAll({
+      order: { productOrder: 'ASC' },
+    });
   }
 
   @Get('/full')
