@@ -53,7 +53,11 @@ export abstract class BaseService<T, DTO extends BaseDTO> {
       order: SortOrder.ASC,
     };
     if (dto.sort) {
-      sort.column = dto.sort.field;
+      // camelCase to snake_case
+      sort.column = dto.sort.field.replace(
+        /[A-Z]/g,
+        letter => `_${letter.toLowerCase()}`,
+      );
       sort.order = dto.sort.order === 1 ? SortOrder.ASC : SortOrder.DESC;
     }
 
