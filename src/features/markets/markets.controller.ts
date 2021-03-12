@@ -70,7 +70,7 @@ export class MarketsController {
   ) {
     return await this.marketsService.search(dto, {
       column: 'market_order',
-      order: SortOrder.DESC,
+      order: SortOrder.ASC,
     });
   }
 }
