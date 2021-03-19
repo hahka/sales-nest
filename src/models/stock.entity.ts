@@ -9,4 +9,11 @@ export class Stock extends BaseEntity {
 
   @Column({ type: 'timestamp' })
   lastUpdate: string;
+
+  @Column({
+    type: 'timestamp',
+    name: 'created_at',
+    default: () => 'CURRENT_TIMESTAMP',
+  })
+  createdAt: string;
 }

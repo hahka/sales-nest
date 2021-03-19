@@ -5,15 +5,15 @@ import { StockItem } from '../models/stock-item.entity';
 
 export class StockItemDTO implements Readonly<StockItemDTO> {
   @ApiProperty({ required: true })
-  @IsString({ groups: ['put'] })
+  @IsString({ groups: ['put', 'post'] })
   productId: string;
 
   @ApiProperty({ required: true })
-  @Min(0, { groups: ['put'] })
+  @Min(0, { groups: ['put', 'post'] })
   quantity: number;
 
   @ApiProperty({ required: true })
-  @IsString({ groups: ['put'] })
+  @IsString({ groups: ['put', 'post'] })
   category: STOCK_CATEGORY;
 
   public toEntity() {
